@@ -1,0 +1,57 @@
+const allLinks = document.querySelectorAll(".tabs a");
+const allTabs = document.querySelectorAll(".tab-content");
+
+allLinks.forEach((elem) => {
+  elem.addEventListener("click", function () {
+    const linkId = elem.id;
+    const hrefLinkClick = elem.href;
+
+    allLinks.forEach((link) => {
+      if (link.href == hrefLinkClick) {
+        link.classList.add("active");
+      } else {
+        link.classList.remove("active");
+      }
+    });
+
+    allTabs.forEach((tab) => {
+      const id = tab.id;
+      if (id.includes(linkId)) {
+        tab.classList.add("tab-content--active");
+      } else {
+        tab.classList.remove("tab-content--active");
+      }
+    });
+  });
+});
+
+
+
+const particleVertex = `
+  attribute float scale;
+	uniform float uTime;
+
+	void main() {
+		vec3 p = position;
+    float s = scale;
+
+    p.y += (sin(p.x + uTime) * 0.5) + (cos(p.y + uTime) * 0.1) * 2.0;
+    p.x += (sin(p.y + uTime) * 0.5);
+    s += (sin(p.x + uTime) * 0.5) + (cos(p.y + uTime) * 0.1) * 2.0;
+
+		vec4 mvPosition = modelViewMatrix * vec4(p, 1.0);
+		gl_PointSize = s * 15.0 * (1.0 / -mvPosition.z);
+		gl_Position = projectionMatrix * mvPosition;
+	}
+`;
+
+const particleFragment = `
+	void main() {
+		gl_FragColor = vec4(1.0, 1.0, 1.0, 0.5);
+	}
+`;
+
+function lerp(start, end, amount) {
+	return (1 - amount) * start + amount * end;
+};
+
